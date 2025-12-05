@@ -1,12 +1,12 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import ChatWindow from './components/chat/ChatWindow';
-import ChannelList from './components/sidebar/ChannelList';
+import { Sidebar } from './components/layout/Sidebar';
 
 const App = () => {
   return (
     <Layout
-      sidebar={<ChannelList />}
+      sidebar={<Sidebar />}
       content={
         <Routes>
           <Route path="/" element={<Navigate to="/channels" replace />} />
