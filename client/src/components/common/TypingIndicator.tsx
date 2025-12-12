@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { shallowEqual, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 
 interface TypingIndicatorProps {
@@ -7,16 +7,18 @@ interface TypingIndicatorProps {
 }
 
 export const TypingIndicator: React.FC<TypingIndicatorProps> = ({ channelId }) => {
-  const typingUsers = useSelector((state: RootState) => {
-    const channelTyping = state.users.typing[channelId] || [];
-    const onlineUsers = state.users.online;
-    return channelTyping
-      .map((userId) => {
-        const user = state.users.list.find((u) => u.id === userId);
-        return user?.username;
-      })
-      .filter(Boolean);
-  });
+  const typingUsers = useSelector(
+    (state: RootState) => {
+      const channelTyping = state.users.typing[channelId] || [];
+      return channelTyping
+        .map((userId) => {
+          const user = state.users.list.find((u) => u.id === userId);
+          return user?.username;
+        })
+        .filter(Boolean) as string[];
+    },
+    shallowEqual
+  );
 
   if (typingUsers.length === 0) return null;
 

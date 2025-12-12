@@ -3,6 +3,31 @@ import { prisma } from '../config/database';
 import { uploadBuffer } from '../services/s3.service';
 import { v4 as uuid } from 'uuid';
 
+export const createMessage = async (req: Request, res: Response) => {
+  const userId = (req as any).userId as string;
+  const channelId = (req.params as any).id || req.body.channelId;
+  const { content, parentId, attachments } = req.body;
+
+  console.log('HTTP createMessage', { userId, channelId, hasContent: !!content, attachmentsCount: attachments?.length || 0 });
+
+  if (!content?.trim() && (!attachments || attachments.length === 0)) {
+    return res.status(400).json({ message: 'Message content or attachments required' });
+  }
+
+  const message = await prisma.message.create({
+    data: {
+      content: content?.trim() || '',
+      channelId,
+      senderId: userId,
+      parentId: parentId || null,
+      attachments: attachments || []
+    },
+    include: { sender: true, reactions: true }
+  });
+
+  res.status(201).json(message);
+};
+
 export const listMessages = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { limit = 50, before } = req.query;

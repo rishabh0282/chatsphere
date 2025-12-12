@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { authMiddleware } from '../middleware/auth.middleware';
 import {
+  createMessage,
   listMessages,
   getMessage,
   editMessage,
@@ -14,6 +15,7 @@ const router = Router();
 
 router.use(authMiddleware);
 
+router.post('/channels/:id/messages', createMessage);
 router.get('/channels/:id/messages', listMessages);
 router.get('/messages/:id', getMessage);
 router.put('/messages/:id', editMessage);

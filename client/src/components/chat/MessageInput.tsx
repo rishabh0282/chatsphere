@@ -55,26 +55,45 @@ const MessageInput: React.FC<Props> = ({ channelId }) => {
     setAttachments((prev) => [...prev, url]);
   };
 
-  const handleSend = (e: FormEvent) => {
+  const handleSend = async (e: FormEvent) => {
     e.preventDefault();
     if ((!text.trim() && attachments.length === 0) || !user) return;
 
-    const payload = {
-      id: crypto.randomUUID(),
-      content: text,
-      channelId,
-      senderId: user.id,
-      attachments: attachments.length > 0 ? attachments : undefined,
-      createdAt: new Date().toISOString(),
-    };
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/channels/${channelId}/messages`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token') || ''}`,
+          },
+          body: JSON.stringify({
+            content: text.trim(),
+            attachments: attachments.length > 0 ? attachments : undefined,
+          }),
+        }
+      );
 
-    dispatch(addMessage(payload));
-    socket?.emit('message:send', payload);
-    setText('');
-    setAttachments([]);
-    stopTyping();
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
+      if (!res.ok) {
+        console.error('Failed to send message', await res.text());
+        return;
+      }
+
+      const saved = await res.json();
+
+      // Update local store and broadcast to others
+      dispatch(addMessage(saved));
+      socket?.emit('message:send', saved);
+    } catch (err) {
+      console.error('Failed to send message', err);
+    } finally {
+      setText('');
+      setAttachments([]);
+      stopTyping();
+      if (textareaRef.current) {
+        textareaRef.current.style.height = 'auto';
+      }
     }
   };
 

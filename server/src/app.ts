@@ -7,9 +7,12 @@ import routes from './routes';
 
 const app = express();
 
+const isDev = process.env.NODE_ENV !== 'production';
+
 // CORS configuration - allow frontend URL in production
 const frontendUrl = process.env.FRONTEND_URL;
-const allowedOrigins: string[] = ['http://localhost:3000'];
+// Default local dev ports
+const allowedOrigins: string[] = ['http://localhost:3000', 'http://localhost:3001'];
 
 if (frontendUrl) {
   // Add with and without trailing slash
@@ -45,12 +48,12 @@ app.use(helmet({
 app.use(compression());
 app.use(express.json());
 
-// Rate limiting - but exclude health check
+// Rate limiting - relaxed in local dev, exclude health check
 app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 100,
-    skip: (req) => req.path === '/health'
+    max: isDev ? 1000 : 100,
+    skip: (req) => isDev || req.path === '/health'
   })
 );
 

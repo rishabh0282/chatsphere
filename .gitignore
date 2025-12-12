@@ -41,3 +41,13 @@ DEPLOYMENT_CHECKLIST.md
 FLY_DEPLOYMENT.md
 RENDER_DEPLOYMENT.md
 QUICK_START.md
+VERCEL_DEPLOYMENT.md
+package-lock.json
+server/docker-run.ps1
+server/docker-run.sh
+
+# Environment variables with credentials (NEVER COMMIT!)
+RENDER_ENV_VARS.txt
+*.env
+.env.local
+.env.production
