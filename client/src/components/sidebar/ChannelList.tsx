@@ -7,7 +7,7 @@ import { Channel } from '../../types';
 import { ChannelItem } from './ChannelItem';
 import { channelService } from '../../services/channel.service';
 
-const ChannelList = () => {
+export const ChannelList = () => {
   const dispatch = useDispatch();
   const { id: activeChannelId } = useParams<{ id: string }>();
   const channels = useSelector((state: RootState) => state.channels.list);
@@ -52,5 +52,4 @@ const ChannelList = () => {
   );
 };
 
-export default ChannelList;
 
