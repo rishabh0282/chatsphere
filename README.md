@@ -1,5 +1,6 @@
 # ChatSphere - Real-Time WebSocket Chat Application
 
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-blue?logo=vercel)](https://chatsphere-live.vercel.app/)
 ![Node Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)
 ![TypeScript](https://img.shields.io/badge/typescript-%5E5.0.0-blue)
 
