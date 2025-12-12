@@ -18,12 +18,15 @@ const channelsSlice = createSlice({
     setChannels(state, action: PayloadAction<Channel[]>) {
       state.list = action.payload;
     },
+    addChannel(state, action: PayloadAction<Channel>) {
+      state.list.push(action.payload);
+    },
     setActiveChannel(state, action: PayloadAction<string | null>) {
       state.activeChannelId = action.payload;
     }
   }
 });
 
-export const { setChannels, setActiveChannel } = channelsSlice.actions;
+export const { setChannels, addChannel, setActiveChannel } = channelsSlice.actions;
 export default channelsSlice.reducer;
 
