@@ -1,8 +1,5 @@
 # ChatSphere - Real-Time WebSocket Chat Application
 
-![Build Status](https://github.com/rishabh0282/chatsphere/actions/workflows/ci-cd.yml/badge.svg)
-![Test Coverage](https://img.shields.io/codecov/c/github/rishabh0282/chatsphere)
-![License](https://img.shields.io/github/license/rishabh0282/chatsphere)
 ![Node Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)
 ![TypeScript](https://img.shields.io/badge/typescript-%5E5.0.0-blue)
 
