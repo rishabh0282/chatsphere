@@ -30,5 +30,14 @@ app.use(routes);
 
 app.get('/health', (_req, res) => res.json({ status: 'ok' }));
 
+// Error handling middleware
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.error('Error:', err);
+  res.status(err.status || 500).json({
+    error: err.message || 'Internal server error',
+    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+  });
+});
+
 export default app;
 

@@ -21,16 +21,23 @@ export const CreateChannel: React.FC<CreateChannelProps> = ({ onClose }) => {
 
     setLoading(true);
     try {
+      console.log('Creating channel with data:', { name: name.trim(), description: description.trim() || undefined, type });
       const response = await api.post('/channels', {
         name: name.trim(),
         description: description.trim() || undefined,
         type,
       });
+      console.log('Channel created successfully:', response.data);
       dispatch(addChannel(response.data));
       onClose();
     } catch (error: any) {
       console.error('Failed to create channel:', error);
-      alert(error.response?.data?.error || 'Failed to create channel');
+      console.error('Error response:', error.response);
+      const errorMessage = error.response?.data?.error || 
+                          error.response?.data?.message || 
+                          error.message || 
+                          'Failed to create channel. Please check your connection and try again.';
+      alert(errorMessage);
     } finally {
       setLoading(false);
     }

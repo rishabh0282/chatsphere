@@ -11,18 +11,32 @@ export const listChannels = async (req: Request, res: Response) => {
 };
 
 export const createChannel = async (req: Request, res: Response) => {
-  const userId = (req as any).userId as string;
-  const { name, description, type } = req.body;
-  const channel = await prisma.channel.create({
-    data: {
-      name,
-      description,
-      type,
-      createdBy: userId,
-      members: { create: { userId, role: 'ADMIN' } }
+  try {
+    const userId = (req as any).userId as string;
+    const { name, description, type } = req.body;
+
+    if (!name || !name.trim()) {
+      return res.status(400).json({ error: 'Channel name is required' });
     }
-  });
-  res.status(201).json(channel);
+
+    const channel = await prisma.channel.create({
+      data: {
+        name: name.trim(),
+        description: description?.trim() || null,
+        type: type || 'PUBLIC',
+        createdBy: userId,
+        members: { create: { userId, role: 'ADMIN' } }
+      },
+      include: { members: true }
+    });
+    res.status(201).json(channel);
+  } catch (error: any) {
+    console.error('Error creating channel:', error);
+    if (error.code === 'P2002') {
+      return res.status(409).json({ error: 'Channel name already exists' });
+    }
+    res.status(500).json({ error: 'Failed to create channel' });
+  }
 };
 
 export const getChannel = async (req: Request, res: Response) => {
