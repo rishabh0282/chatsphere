@@ -7,11 +7,11 @@ export interface TokenPayload {
   userId: string;
 }
 
-export const signAccessToken = (payload: TokenPayload, expiresIn = '15m') =>
-  jwt.sign(payload, ACCESS_SECRET, { expiresIn });
+export const signAccessToken = (payload: TokenPayload, expiresIn: string | number = '15m') =>
+  jwt.sign(payload, ACCESS_SECRET, { expiresIn } as jwt.SignOptions);
 
-export const signRefreshToken = (payload: TokenPayload, expiresIn = '7d') =>
-  jwt.sign(payload, REFRESH_SECRET, { expiresIn });
+export const signRefreshToken = (payload: TokenPayload, expiresIn: string | number = '7d') =>
+  jwt.sign(payload, REFRESH_SECRET, { expiresIn } as jwt.SignOptions);
 
 export const verifyAccessToken = (token: string) =>
   jwt.verify(token, ACCESS_SECRET) as TokenPayload;
