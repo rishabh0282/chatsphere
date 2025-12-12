@@ -9,15 +9,24 @@ dotenv.config();
 const port = Number(process.env.PORT) || 5000;
 const server = http.createServer(app);
 
-// Socket.io CORS configuration - allow frontend URL in production
-const allowedOrigins = process.env.FRONTEND_URL
-  ? [process.env.FRONTEND_URL, 'http://localhost:3000']
-  : ['http://localhost:3000'];
+// Socket.io CORS configuration - allow both localhost and production frontend URL
+const frontendUrl = process.env.FRONTEND_URL;
+const socketAllowedOrigins: string[] = ['http://localhost:3000'];
+
+if (frontendUrl) {
+  // Add with and without trailing slash to match Express CORS config
+  const urlWithoutSlash = frontendUrl.replace(/\/$/, '');
+  const urlWithSlash = `${urlWithoutSlash}/`;
+  socketAllowedOrigins.push(urlWithoutSlash, urlWithSlash);
+}
+
+console.log('Socket.io allowed CORS origins:', socketAllowedOrigins);
 
 const io = new Server(server, {
   cors: {
-    origin: allowedOrigins,
-    credentials: true
+    origin: socketAllowedOrigins,
+    credentials: true,
+    methods: ['GET', 'POST']
   }
 });
 
