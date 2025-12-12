@@ -34,3 +34,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Deployment documentation (exclude from GitHub)
+DEPLOYMENT.md
+DEPLOYMENT_CHECKLIST.md
+FLY_DEPLOYMENT.md
+RENDER_DEPLOYMENT.md
+QUICK_START.md

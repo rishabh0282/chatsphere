@@ -7,7 +7,15 @@ import routes from './routes';
 
 const app = express();
 
-app.use(cors());
+// CORS configuration - allow frontend URL in production
+const allowedOrigins = process.env.FRONTEND_URL
+  ? [process.env.FRONTEND_URL, 'http://localhost:3000']
+  : ['http://localhost:3000'];
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
 app.use(helmet());
 app.use(compression());
 app.use(express.json());
