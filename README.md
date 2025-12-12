@@ -16,12 +16,12 @@ A modern, scalable real-time chat application built with WebSocket technology, s
 
 ## 📸 Screenshots
 
-![Chat Interface](screenshots/chat-interface.png)
+[Chat Interface]
 *Real-time chat with typing indicators and presence*
 <img width="1268" height="601" alt="image" src="https://github.com/user-attachments/assets/c8ddb57e-897a-4191-8189-ead70a8292c7" />
 
 
-![Channel Management](screenshots/channels.png)
+[Channel Management]
 *Create and manage public/private channels*
 <img width="1277" height="623" alt="image" src="https://github.com/user-attachments/assets/76285905-c767-4560-ac73-a9c238ca1ec8" />
 
