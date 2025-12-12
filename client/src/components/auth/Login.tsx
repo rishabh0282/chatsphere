@@ -19,13 +19,21 @@ export const Login: React.FC = () => {
     setLoading(true);
 
     try {
+      console.log('Logging in user:', { email });
       const { user, token, refreshToken } = await authService.login({ email, password });
+      console.log('Login successful');
       localStorage.setItem('token', token);
       localStorage.setItem('refreshToken', refreshToken);
       dispatch(setAuth({ user, token }));
       navigate('/channels');
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Login failed. Please try again.');
+      console.error('Login error:', err);
+      console.error('Error response:', err.response);
+      const errorMessage = err.response?.data?.message || 
+                          err.response?.data?.error || 
+                          err.message || 
+                          'Login failed. Please try again.';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

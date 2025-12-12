@@ -32,13 +32,21 @@ export const Register: React.FC = () => {
     setLoading(true);
 
     try {
+      console.log('Registering user with:', { email, username });
       const { user, token, refreshToken } = await authService.register({ email, username, password });
+      console.log('Registration successful');
       localStorage.setItem('token', token);
       localStorage.setItem('refreshToken', refreshToken);
       dispatch(setAuth({ user, token }));
       navigate('/channels');
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Registration failed. Please try again.');
+      console.error('Registration error:', err);
+      console.error('Error response:', err.response);
+      const errorMessage = err.response?.data?.message || 
+                          err.response?.data?.error || 
+                          err.message || 
+                          'Registration failed. Please try again.';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
