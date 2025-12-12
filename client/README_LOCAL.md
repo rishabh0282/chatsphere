@@ -5,12 +5,14 @@
 For local development, create a `.env.local` file in the `client` directory with the following:
 
 ```env
-# Backend API URL (local development)
-VITE_API_URL=http://localhost:5000
+# Backend API URL (remote Render backend)
+VITE_API_URL=https://chatsphere-backend-p045.onrender.com
 
-# Socket.io URL (local development)
-VITE_SOCKET_URL=http://localhost:5000
+# Socket.io URL (remote Render backend)
+VITE_SOCKET_URL=https://chatsphere-backend-p045.onrender.com
 ```
+
+**Note:** This setup uses the remote Render backend. If you want to use a local backend instead, change the URLs to `http://localhost:5000`.
 
 ## Quick Start
 
@@ -20,8 +22,8 @@ VITE_SOCKET_URL=http://localhost:5000
    ```
 
 2. **Update values if needed:**
-   - If your backend runs on a different port, update `VITE_API_URL`
-   - If your socket server runs on a different port, update `VITE_SOCKET_URL`
+   - Default uses remote Render backend: `https://chatsphere-backend-p045.onrender.com`
+   - To use local backend, change to: `http://localhost:5000`
 
 3. **Install dependencies:**
    ```bash
